@@ -1,0 +1,14 @@
+{
+    "name": "pc/train",
+    "require": {
+        "monolog/monolog": "^1.23",
+        "wixel/gump": "^1.5"
+    },
+
+    "autoload": {
+        "classmap": [
+            "libs",
+            "config"
+        ]
+    }
+}
