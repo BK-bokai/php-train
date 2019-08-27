@@ -1,6 +1,10 @@
 <?php
  class Config {
     const BASE_URL = "http://localhost/php/train/";
+    const MAIL_FROM = "bokai830124@gmail.com";
+    const MAIL_FROM_NAME = "bokai830124@gmail.com";  
+    const MAIL_USER_NAME = "bokai830124@gmail.com"; // 用來寄信的 GMAIL 帳號
+    const MAIL_USER_PASSWROD = "pzyqeegjopvfjqzp";      // 用來寄信的 GMAIL 密碼
     // const MAIL_FROM = "no_reply@mail.com";
     // const MAIL_FROM_NAME = "http://127.0.0.1/login_register/";
     // const MAIL_USER_NAME = "your_gmail_account";

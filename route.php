@@ -51,6 +51,54 @@ switch ($route->getParameter(1)) {
     include('view/footer/default.php'); // 載入共用的頁尾
     break;
 
+  case "do_mail"; // 網址就會是 http://127.0.0.1/game/do_mail
+    try { 
+      $to = Config::MAIL_USER_NAME;;
+      $subject = "sample subject";
+      $body = "sample content";
+      $mail = new Mail(Config::MAIL_USER_NAME, Config::MAIL_USER_PASSWROD);
+      $mail->setFrom(Config::MAIL_FROM, Config::MAIL_FROM_NAME);
+      $mail->addAddress($to);
+      $mail->subject($subject);
+      $mail->body($body);
+      if($mail->send()){
+          echo "success";
+      }else{
+          echo "fail";
+      }
+    } catch(Exception $e) {
+      echo 'Caught exception: ',  $e->getMessage();
+      $error[] = $e->getMessage();
+    }
+    // $subject = "sample subject";
+    // $body = "sample content";
+    // // use PHPMailer\PHPMailer;
+    // require_once "phpmailer/class.phpmailer.php";
+    // $mail = new PHPMailer();
+    // $mail->SMTPSecure = "ssl";
+    // $mail->Host = "smtp.gmail.com";
+    // $mail->Port = 465;
+    // $mail->CharSet = "utf-8";    //信件編碼
+    // $mail->Username = Config::MAIL_USER_NAME;        //帳號，例:example@gmail.com
+    // $mail->Password = Config::MAIL_USER_PASSWROD;        //密碼
+    // $mail->IsSMTP();
+    // $mail->SMTPAuth = true;
+    // $mail->SMTPDebug  = 1;
+    // $mail->Encoding = "base64";
+    // $mail->IsHTML(true);     //內容HTML格式
+    // $mail->From = Config::MAIL_USER_NAME;        //寄件者信箱
+    // $mail->FromName = Config::MAIL_USER_NAME;    //寄信者姓名
+    // $mail->Subject = $subject;     //信件主旨
+    // $mail->Body = $body;        //信件內容
+    // $mail->AddAddress(Config::MAIL_USER_NAME);   //收件者信箱
+    // if ($mail->Send()) {
+    //   echo "寄信成功";
+    // } else {
+    //   echo "寄信失敗";
+    //   //echo "Mailer Error: " . $mail->ErrorInfo;
+    // }
+    break;
+
   case "list":
     // 讀取全英雄列表資料
     // $DAO->query( ...略... );

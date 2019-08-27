@@ -9,6 +9,7 @@ return array(
     'Config' => $baseDir . '/config/Config.php',
     'Database' => $baseDir . '/libs/Database.php',
     'DatabaseAccessObject' => $baseDir . '/libs/DatabaseAccessObject.php',
+    'Mail' => $baseDir . '/libs/Mail.php',
     'MySQL' => $baseDir . '/config/MySQL.php',
     'Request' => $baseDir . '/libs/Request.php',
     'Router' => $baseDir . '/libs/Router.php',
