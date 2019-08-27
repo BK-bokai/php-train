@@ -33,7 +33,7 @@ switch ($route->getParameter(1)) {
       Database::get()->insert($table, $data_array);
     } else {
       print_r($is_valid);
-      die;
+      die("新增失敗");
     }
     header("Location: " . Config::BASE_URL . "success");
     exit;

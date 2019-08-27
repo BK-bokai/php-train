@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit9a47d0f1abf7fba0b3144d81845b81f6
 {
+    public static $files = array (
+        'da253f61703e9c22a5a34f228526f05a' => __DIR__ . '/..' . '/wixel/gump/gump.class.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (

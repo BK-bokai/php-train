@@ -127,5 +127,45 @@
             "psr",
             "psr-3"
         ]
+    },
+    {
+        "name": "wixel/gump",
+        "version": "v1.5.7",
+        "version_normalized": "1.5.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Wixel/GUMP.git",
+            "reference": "b32c92206fb7014a40179b8468ba8bab90b3f879"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Wixel/GUMP/zipball/b32c92206fb7014a40179b8468ba8bab90b3f879",
+            "reference": "b32c92206fb7014a40179b8468ba8bab90b3f879",
+            "shasum": ""
+        },
+        "time": "2018-06-02T23:09:34+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "gump.class.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Sean Nieuwoudt",
+                "homepage": "https://wixelhq.com"
+            },
+            {
+                "name": "Filis Futsarov",
+                "homepage": "https://filis.me"
+            }
+        ],
+        "description": "A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
+        "homepage": "https://wixelhq.com/"
     }
 ]
