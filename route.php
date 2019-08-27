@@ -52,7 +52,7 @@ switch ($route->getParameter(1)) {
     break;
 
   case "do_mail"; // 網址就會是 http://127.0.0.1/game/do_mail
-    try { 
+    try {
       $to = Config::MAIL_USER_NAME;;
       $subject = "sample subject";
       $body = "sample content";
@@ -61,12 +61,12 @@ switch ($route->getParameter(1)) {
       $mail->addAddress($to);
       $mail->subject($subject);
       $mail->body($body);
-      if($mail->send()){
-          echo "success";
-      }else{
-          echo "fail";
+      if ($mail->send()) {
+        echo "success";
+      } else {
+        echo "fail";
       }
-    } catch(Exception $e) {
+    } catch (Exception $e) {
       echo 'Caught exception: ',  $e->getMessage();
       $error[] = $e->getMessage();
     }
@@ -114,6 +114,77 @@ switch ($route->getParameter(1)) {
 
     include('view/header/default.php'); // 載入共用的頁首
     include('view/body/hero.php');
+    include('view/footer/default.php'); // 載入共用的頁尾
+    break;
+
+  case "register";
+    if (isset($_POST['submit'])) {
+      $gump = new GUMP();
+
+      $_POST = $gump->sanitize($_POST);
+
+      $validation_rules_array = array(
+        'username'    => 'required|alpha_numeric|max_len,20|min_len,8',
+        'email'       => 'required|valid_email',
+        'password'    => 'required|max_len,20|min_len,8',
+        'passwordConfirm' => 'required'
+      );
+      $gump->validation_rules($validation_rules_array);
+
+      $filter_rules_array = array(
+        'username' => 'trim|sanitize_string',
+        'email'    => 'trim|sanitize_email',
+        'password' => 'trim',
+        'passwordConfirm' => 'trim'
+      );
+      $gump->filter_rules($filter_rules_array);
+
+      $validated_data = $gump->run($_POST);
+
+      if ($validated_data === false) {
+        $error = $gump->get_readable_errors(false);
+      } else {
+        // validation successful
+        foreach ($validation_rules_array as $key => $val) {
+          ${$key} = $_POST[$key];
+        }
+        $userVeridator = new UserVeridator();
+        $userVeridator->isPasswordMatch($password, $passwordConfirm);
+        $userVeridator->isUsernameDuplicate($username);
+        $userVeridator->isEmailDuplicate($email);
+        $error = $userVeridator->getErrorArray();
+      }
+      //if no errors have been created carry on
+      if (count($error) == 0) {
+        //hash the password
+        $passwordObject = new Password();
+        $hashedpassword = $passwordObject->password_hash($password, PASSWORD_BCRYPT);
+
+        //create the random activasion code
+        $activasion = md5(uniqid(rand(), true));
+
+        try {
+
+          // 新增到資料庫
+          $data_array = array(
+            'username' => $username,
+            'password' => $hashedpassword,
+            'email' => $email,
+            'active' => $activasion
+          );
+          Database::get()->insert("members", $data_array);
+
+          //redirect to index page
+          header('Location: ' . Config::BASE_URL . 'register');
+
+          //else catch the exception and show the error.
+        } catch (PDOException $e) {
+          $error[] = $e->getMessage();
+        }
+      }
+    }
+    include('view/header/default.php'); // 載入共用的頁首
+    include('view/body/register.php');  // 載入註冊用的表單
     include('view/footer/default.php'); // 載入共用的頁尾
     break;
 

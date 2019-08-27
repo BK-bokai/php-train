@@ -13,4 +13,5 @@ return array(
     'MySQL' => $baseDir . '/config/MySQL.php',
     'Request' => $baseDir . '/libs/Request.php',
     'Router' => $baseDir . '/libs/Router.php',
+    'UserVeridator' => $baseDir . '/validators/UserVeridator.php',
 );

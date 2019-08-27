@@ -50,6 +50,7 @@ class ComposerStaticInit9a47d0f1abf7fba0b3144d81845b81f6
         'MySQL' => __DIR__ . '/../..' . '/config/MySQL.php',
         'Request' => __DIR__ . '/../..' . '/libs/Request.php',
         'Router' => __DIR__ . '/../..' . '/libs/Router.php',
+        'UserVeridator' => __DIR__ . '/../..' . '/validators/UserVeridator.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
