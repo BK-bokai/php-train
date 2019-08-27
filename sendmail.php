@@ -10,7 +10,7 @@ $mail->Host = "cloudsmtp.taipower.com.tw";
 $mail->Port = 465;
 $mail->CharSet = "utf-8";    //信件編碼
 $mail->Username = "d0610201@taipower.com.tw";   //帳號，例:example@gmail.com
-$mail->Password = "Qwerty123456";        //密碼
+$mail->Password = "";        //密碼
 $mail->IsSMTP();
 $mail->SMTPAuth = true;
 $mail->SMTPDebug  = 1;
