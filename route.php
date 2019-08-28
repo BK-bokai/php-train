@@ -70,33 +70,7 @@ switch ($route->getParameter(1)) {
       echo 'Caught exception: ',  $e->getMessage();
       $error[] = $e->getMessage();
     }
-    // $subject = "sample subject";
-    // $body = "sample content";
-    // // use PHPMailer\PHPMailer;
-    // require_once "phpmailer/class.phpmailer.php";
-    // $mail = new PHPMailer();
-    // $mail->SMTPSecure = "ssl";
-    // $mail->Host = "smtp.gmail.com";
-    // $mail->Port = 465;
-    // $mail->CharSet = "utf-8";    //信件編碼
-    // $mail->Username = Config::MAIL_USER_NAME;        //帳號，例:example@gmail.com
-    // $mail->Password = Config::MAIL_USER_PASSWROD;        //密碼
-    // $mail->IsSMTP();
-    // $mail->SMTPAuth = true;
-    // $mail->SMTPDebug  = 1;
-    // $mail->Encoding = "base64";
-    // $mail->IsHTML(true);     //內容HTML格式
-    // $mail->From = Config::MAIL_USER_NAME;        //寄件者信箱
-    // $mail->FromName = Config::MAIL_USER_NAME;    //寄信者姓名
-    // $mail->Subject = $subject;     //信件主旨
-    // $mail->Body = $body;        //信件內容
-    // $mail->AddAddress(Config::MAIL_USER_NAME);   //收件者信箱
-    // if ($mail->Send()) {
-    //   echo "寄信成功";
-    // } else {
-    //   echo "寄信失敗";
-    //   //echo "Mailer Error: " . $mail->ErrorInfo;
-    // }
+
     break;
 
   case "list":
@@ -154,8 +128,8 @@ switch ($route->getParameter(1)) {
         $userVeridator->isEmailDuplicate($email);
         $error = $userVeridator->getErrorArray();
       }
-      //if no errors have been created carry on
-      if (count($error) == 0) {
+      // if no errors have been created carry on
+      if (!isset($error) || count($error) == 0) {
         //hash the password
         $passwordObject = new Password();
         $hashedpassword = $passwordObject->password_hash($password, PASSWORD_BCRYPT);
@@ -170,9 +144,9 @@ switch ($route->getParameter(1)) {
             'username' => $username,
             'password' => $hashedpassword,
             'email' => $email,
-            'active' => $activasion
+            // 'active' => $activasion
           );
-          Database::get()->insert("members", $data_array);
+          Database::get()->insert("user", $data_array);
 
           //redirect to index page
           header('Location: ' . Config::BASE_URL . 'register');
@@ -185,6 +159,69 @@ switch ($route->getParameter(1)) {
     }
     include('view/header/default.php'); // 載入共用的頁首
     include('view/body/register.php');  // 載入註冊用的表單
+    include('view/footer/default.php'); // 載入共用的頁尾
+    break;
+  case "logout";
+    unset($_SESSION['memberID']);
+    unset($_SESSION['username']);
+    header('Location: login');
+    break;
+  case "home";
+    if (UserVeridator::isLogin(isset($_SESSION['username']) ? $_SESSION['username'] : '')) {
+      include('view/header/default.php'); // 載入共用的頁首
+      include('view/body/home.php');     // 載入登入用的頁面
+      include('view/footer/default.php'); // 載入共用的頁尾
+    } else {
+      header('Location: logout');
+    }
+    break;
+  case "login";
+    if (isset($_POST['submit'])) {
+      $gump = new GUMP();
+
+      $_POST = $gump->sanitize($_POST);
+
+      $validation_rules_array = array(
+        'username'    => 'required|alpha_numeric|max_len,20|min_len,3',
+        'password'    => 'required|max_len,20|min_len,3'
+      );
+      $gump->validation_rules($validation_rules_array);
+
+      $filter_rules_array = array(
+        'username' => 'trim|sanitize_string',
+        'password' => 'trim',
+      );
+      $gump->filter_rules($filter_rules_array);
+
+      $validated_data = $gump->run($_POST);
+
+      if ($validated_data === false) {
+        $error = $gump->get_readable_errors(false);
+      } else {
+        // validation successful
+        foreach ($validation_rules_array as $key => $val) {
+          ${$key} = $_POST[$key];
+        }
+
+        $userVeridator = new UserVeridator();
+        $userVeridator->loginVerification($username,$password);
+        $error = $userVeridator->getErrorArray();
+
+        if (!isset($error) || count($error) == 0) {
+          $condition = "username = :username";
+          $order_by = "1";
+          $fields = "*";
+          $limit = "LIMIT 1";
+          $data_array = array(":username" => $username);
+          $result = Database::get()->select("user", $condition, $order_by, $fields, $limit, $data_array);
+          $_SESSION['memberID'] = $result[0]['id'];
+          $_SESSION['username'] = $username;
+          header('Location: home');
+        }
+      }
+    }
+    include('view/header/default.php'); // 載入共用的頁首
+    include('view/body/login.php');     // 載入登入用的頁面
     include('view/footer/default.php'); // 載入共用的頁尾
     break;
 

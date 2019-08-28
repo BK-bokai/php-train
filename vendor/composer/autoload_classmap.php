@@ -11,6 +11,7 @@ return array(
     'DatabaseAccessObject' => $baseDir . '/libs/DatabaseAccessObject.php',
     'Mail' => $baseDir . '/libs/Mail.php',
     'MySQL' => $baseDir . '/config/MySQL.php',
+    'Password' => $baseDir . '/libs/Password.php',
     'Request' => $baseDir . '/libs/Request.php',
     'Router' => $baseDir . '/libs/Router.php',
     'UserVeridator' => $baseDir . '/validators/UserVeridator.php',

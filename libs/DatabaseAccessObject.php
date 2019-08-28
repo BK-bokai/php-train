@@ -23,6 +23,7 @@ class DatabaseAccessObject
             //$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);//Suggested to uncomment on production websites
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Suggested to comment on production websites
             $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            echo'連線成功';
 
             $this->db = $db;
         } catch (PDOException $e) {
@@ -41,7 +42,7 @@ class DatabaseAccessObject
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute($data_array);
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->error_message = '<p class="bg-danger">' . $e->getMessage() . '</p>';
         }
@@ -58,7 +59,7 @@ class DatabaseAccessObject
         try {
             $stmt= $this->db->prepare($this->last_sql);
             $stmt->execute($data_array);
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->error_message='<p class="bg-danger">'.$e->getMessage().'</p>';
         }
@@ -81,13 +82,13 @@ class DatabaseAccessObject
 
         foreach ($data_array as $key => $value) {
             $tmp_col[] = $key;
-            $tmp_dat[] = ":{$value}";
+            $tmp_dat[] = ":{$key}";
             $prepare_array[":".$key] = $value;
         }
         $columns = join(",", $tmp_col);
         $data = join(",", $tmp_dat);
 
-        $this->last_sql = "INSERT INTO {$table} ($columns) VALUES ($data)";
+        $this->last_sql = "INSERT INTO {$table} ({$columns}) VALUES ({$data})";
         $stmt = $this->db->prepare($this->last_sql);
         $stmt->execute($prepare_array);
         $this->last_id = $this->db->lastInsertId();
@@ -96,24 +97,27 @@ class DatabaseAccessObject
     public function update($table = null, $data_array = null, $key_column = null, $id = null)
     {
         if ($table === null || $id === null || $key_column === null) return false;
-        if (count($data_array) == 0 || count($key_column) == 0) return false;
+        if (count($data_array) == 0) return false;
 
         $x = 0;
         $setting_list = '';
         foreach ($data_array as $key => $value) {
-            $x = $x + 1;
-            $setting_list .= "`{$key}` = '{$value}'";
-            if ($x < count($data_array) - 1) {
+            $setting_list .= "`{$key}` = :{$key}";
+            if ($x < count($data_array) -1) {
+
                 $setting_list .= ",";
             }
+            $x = $x + 1;
+            $prepare_array[":".$key] = $value;
         }
 
-        $data_array[$key_column]=$id;
-        $this->last_sql = "UPDATE {$table} SET {$setting_list}
-        WHERE {$key_column} = :{$id};";
+        $prepare_array[":{$key_column}"]=$id;
+        $this->last_sql = "UPDATE `{$table}` SET {$setting_list} 
+        WHERE `{$key_column}` = :{$key_column}; ";
         $stmt = $this->db->prepare($this->last_sql);                       
-        $stmt->execute($data_array);
+        $stmt->execute($prepare_array);
     }
+
 
     public function delete($table = null, $key_column = null, $id = null)
     {
@@ -172,5 +176,4 @@ class DatabaseAccessObject
     {
         $this->error_message = $error_message;
     }
-}
 }

@@ -48,6 +48,7 @@ class ComposerStaticInit9a47d0f1abf7fba0b3144d81845b81f6
         'DatabaseAccessObject' => __DIR__ . '/../..' . '/libs/DatabaseAccessObject.php',
         'Mail' => __DIR__ . '/../..' . '/libs/Mail.php',
         'MySQL' => __DIR__ . '/../..' . '/config/MySQL.php',
+        'Password' => __DIR__ . '/../..' . '/libs/Password.php',
         'Request' => __DIR__ . '/../..' . '/libs/Request.php',
         'Router' => __DIR__ . '/../..' . '/libs/Router.php',
         'UserVeridator' => __DIR__ . '/../..' . '/validators/UserVeridator.php',
