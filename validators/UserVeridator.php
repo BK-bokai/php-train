@@ -25,20 +25,20 @@ class UserVeridator
    */
   public function loginVerification($username, $password)
   {
-    $result = Database::get()->execute('SELECT * FROM user WHERE username = :username', array(':username' => $username));
+    // $result = Database::get()->execute('SELECT * FROM user WHERE username = :username', array(':username' => $username));
+    $result = Database::get()->execute('SELECT * FROM user WHERE active = "Yes" AND username = :username', array(':username' => $username));
     if (isset($result[0]['id']) and !empty($result[0]['id'])) {
       $passwordObject = new Password();
       if ($passwordObject->password_verify($password, $result[0]['password'])) {
         return true;
       }
+    } else {
+      // print_r($result);
+      // echo("<br>{$password}<br>");
+      $this->error[] = 'Wrong username or password or your account has not been activated.';
+      print_r($this->error);
+      return false;
     }
-    else{
-    // print_r($result);
-    // echo("<br>{$password}<br>");
-    $this->error[] = 'Wrong username or password or your account has not been activated.';
-    return false;
-    }
-    
   }
 
   /**
@@ -85,5 +85,19 @@ class UserVeridator
       return false;
     }
     return true;
+  }
+
+  /**
+   * 驗證此帳號 ID 跟 開通碼 hash 是否已存在於資料庫中
+   */
+  public function isReady2Active($id, $active)
+  {
+    $result = Database::get()->execute('SELECT username FROM user WHERE id = :id AND active = :active', array(':id' => $id, ':active' => $active));
+    if (isset($result[0]['username']) and !empty($result[0]['username'])) {
+      return true;
+    } else {
+      $this->error[] = 'Username provided is already in use.';
+      return false;
+    }
   }
 }
