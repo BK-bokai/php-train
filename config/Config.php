@@ -1,7 +1,7 @@
 <?php
  class Config {
-    // const BASE_URL = "http://localhost/php/train/";
-    const BASE_URL = "http://localhost/php/php-train/";
+    const BASE_URL = "http://localhost/php/train/";
+    // const BASE_URL = "http://localhost/php/php-train/";
     const MAIL_FROM = "bokai830124@gmail.com";
     const MAIL_FROM_NAME = "bokai830124@gmail.com";  
     const MAIL_USER_NAME = "bokai830124@gmail.com"; // 用來寄信的 GMAIL 帳號

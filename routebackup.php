@@ -225,8 +225,7 @@ switch ($route->getParameter(1)) {
           $condition = "username = :username";
           $order_by = "1";
           $fields = "*";
-          // $limit = "LIMIT 1";
-          $limit = "1";
+          $limit = "LIMIT 1";
           $data_array = array(":username" => $username);
           $result = Database::get()->select("user", $condition, $order_by, $fields, $limit, $data_array);
           $_SESSION['userid'] = $result[0]['id'];
@@ -389,9 +388,30 @@ switch ($route->getParameter(1)) {
         exit();
       }
       
-      
+      // $_POST = $gump->sanitize($_POST);
+
+      // $validation_rules_array = array(
+      //   'username'    => 'required|alpha_numeric|max_len,20|min_len,8',
+      //   'email'       => 'required|valid_email',
+      //   'password'    => 'required|max_len,20|min_len,8',
+      //   'passwordConfirm' => 'required'
+      // );
+      // $gump->validation_rules($validation_rules_array);
+
+      // $filter_rules_array = array(
+      //   'username' => 'trim|sanitize_string',
+      //   'email'    => 'trim|sanitize_email',
+      //   'password' => 'trim',
+      //   'passwordConfirm' => 'trim'
+      // );
+      // $gump->filter_rules($filter_rules_array);
+
+      // $validated_data = $gump->run($_POST);
+
+
+      //if form has been submitted process it
       if(isset($_POST['submit'])){
-        // print_r($_POST);
+        print_r($_POST);
         $gump=null;
         $gump = new GUMP();
         $_POST = $gump->sanitize($_POST); 
@@ -413,13 +433,12 @@ switch ($route->getParameter(1)) {
             ${$key} = $_POST[$key];
           }
           $table = 'user';
-          $condition = '`email` = :email';
+          $condition = 'email = :email';
           $order_by = '1'; 
-          $fields = '`email`, `id`'; 
+          $fields = 'email, id'; 
           $limit = '1';
           $data_array[':email'] = $email;
           $result = Database::get()->select($table, $condition, $order_by, $fields, $limit, $data_array);
-          print_r($result);
           if(!isset($result[0]['id']) OR empty($result[0]['id'])){
             $error[] = 'Email provided is not recognised.';
           }else{

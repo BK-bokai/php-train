@@ -66,7 +66,7 @@ class UserVeridator
    */
   public function isUsernameDuplicate($username)
   {
-    $result = Database::get()->execute('SELECT username FROM members WHERE username = :username', array(':username' => $username));
+    $result = Database::get()->execute('SELECT username FROM user WHERE username = :username', array(':username' => $username));
     if (isset($result[0]['username']) and !empty($result[0]['username'])) {
       $this->error[] = 'Username provided is already in use.';
       return false;
@@ -79,7 +79,7 @@ class UserVeridator
    */
   public function isEmailDuplicate($email)
   {
-    $result = Database::get()->execute('SELECT email FROM members WHERE email = :email', array(':email' => $email));
+    $result = Database::get()->execute('SELECT email FROM user WHERE email = :email', array(':email' => $email));
     if (isset($result[0]['email']) and !empty($result[0]['email'])) {
       $this->error[] = 'Email provided is already in use.';
       return false;

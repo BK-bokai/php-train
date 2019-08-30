@@ -253,22 +253,22 @@
     },
     {
         "name": "wixel/gump",
-        "version": "v1.5.7",
-        "version_normalized": "1.5.7.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/Wixel/GUMP.git",
-            "reference": "b32c92206fb7014a40179b8468ba8bab90b3f879"
+            "reference": "6f7451eddcdca596495ce6883855e9c59d35e1e6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Wixel/GUMP/zipball/b32c92206fb7014a40179b8468ba8bab90b3f879",
-            "reference": "b32c92206fb7014a40179b8468ba8bab90b3f879",
+            "url": "https://api.github.com/repos/Wixel/GUMP/zipball/6f7451eddcdca596495ce6883855e9c59d35e1e6",
+            "reference": "6f7451eddcdca596495ce6883855e9c59d35e1e6",
             "shasum": ""
         },
-        "time": "2018-06-02T23:09:34+00:00",
+        "time": "2018-11-16T06:19:11+00:00",
         "type": "library",
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
             "files": [
                 "gump.class.php"

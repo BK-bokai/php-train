@@ -23,7 +23,7 @@ class DatabaseAccessObject
             //$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);//Suggested to uncomment on production websites
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Suggested to comment on production websites
             $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-            echo'連線成功';
+            // echo'連線成功';
 
             $this->db = $db;
         } catch (PDOException $e) {
@@ -51,14 +51,16 @@ class DatabaseAccessObject
     public function select($table, $condition, $order_by, $fields, $limit, $data_array)
     {
         if (!isset($data_array) || count($data_array) == 0) return false;
-        if (is_numeric($limit)) $limit = "LIMIT" . $limit;
+        if (is_numeric($limit)) $limit = "LIMIT" .' '. $limit;
         if (empty($condition)) $condition = 1;
         if (empty($order_by)) $order_by = 1;
         if (empty($fields)) $fields = "*";
         $this->last_sql = "SELECT {$fields} FROM {$table} WHERE {$condition} ORDER BY {$order_by} {$limit}";
         try {
+            // print_r($this->last_sql);
             $stmt= $this->db->prepare($this->last_sql);
             $stmt->execute($data_array);
+            
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->error_message='<p class="bg-danger">'.$e->getMessage().'</p>';

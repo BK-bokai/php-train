@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9cd4dae1a024de067eb8efada552f15",
+    "content-hash": "3df32f83bb981d41886972c9263c4229",
     "packages": [
         {
             "name": "fightbulc/moment",
@@ -252,16 +252,16 @@
         },
         {
             "name": "wixel/gump",
-            "version": "v1.5.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Wixel/GUMP.git",
-                "reference": "b32c92206fb7014a40179b8468ba8bab90b3f879"
+                "reference": "6f7451eddcdca596495ce6883855e9c59d35e1e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Wixel/GUMP/zipball/b32c92206fb7014a40179b8468ba8bab90b3f879",
-                "reference": "b32c92206fb7014a40179b8468ba8bab90b3f879",
+                "url": "https://api.github.com/repos/Wixel/GUMP/zipball/6f7451eddcdca596495ce6883855e9c59d35e1e6",
+                "reference": "6f7451eddcdca596495ce6883855e9c59d35e1e6",
                 "shasum": ""
             },
             "type": "library",
@@ -286,13 +286,15 @@
             ],
             "description": "A fast, extensible & stand-alone PHP input validation class that allows you to validate any data",
             "homepage": "https://wixelhq.com/",
-            "time": "2018-06-02T23:09:34+00:00"
+            "time": "2018-11-16T06:19:11+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "wixel/gump": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

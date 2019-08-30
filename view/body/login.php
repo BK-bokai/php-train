@@ -46,7 +46,7 @@
 				
 				<div class="row">
 					<div class="col-xs-9 col-sm-9 col-md-9">
-						 <a href='reset'>Forgot your Password?</a>
+						 <a href='<?php echo Config::BASE_URL."forget"?>'>Forgot your Password?</a>
 					</div>
 				</div>
 				
